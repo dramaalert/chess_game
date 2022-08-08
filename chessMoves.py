@@ -152,6 +152,7 @@ def main():
         print('Welcome to the Chess Game!')
         board = Board()
         board.draw()
+        print(f'{board.board}')
         while True:
             board.empty()
             choice = input('Enter a chess piece and its position or type X to exit:\n').lower()
