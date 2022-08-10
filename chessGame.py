@@ -35,6 +35,7 @@ class Player ():
         self.name = name
         self.color = color
         self.make_pieces(board)
+        self.player_choice = ''
 
     def make_pieces(self, board):
         # sets pieces 
@@ -61,8 +62,16 @@ class Player ():
             for col in 'abcdefgh':
                 board.set(col+'7','bP')
 
-    def get_player_move (self):
-        pass
+    def get_player_move (self, board):
+        while True:
+            self.player_choice = input('please enter the piece you want to move (by tile eg a1, f3,...)\n')
+            if board.board[self.player_choice][0] == self.color[0]:
+                print('that is a valid choice!')
+                break
+            else:
+                print('not a valid choice!')
+                continue
+
 
 
 class AI (Player):
@@ -79,7 +88,9 @@ def main ():
     print(game.board)
     user = Player(game, 'User', 'white')
     computer = AI(game, 'Computer Player', 'black')
-    game.draw()
+    while True:
+        game.draw()
+        user.get_player_move(game)
 
 
 main()
