@@ -1,7 +1,7 @@
 # actual game. should use the text output (simple, rudimentary) 
 
 
-import chessMoves
+from chessMoves import evaluate
 import re
 
 
@@ -28,6 +28,13 @@ class Game ():
     def set (self, pos, val):
         # sets new value for a given position (x, R, P, ...)
         self.board[pos] = val
+
+    def get_poss_moves(self, c):
+        b = evaluate(c)
+        for i in b.items():
+            if i[1] == 'x' and self.board[i[0]] == '  ':
+                self.board[i[0]] = 'x '
+            
 
 class Player ():
     def __init__(self, board, name, color ) -> None:
@@ -67,6 +74,7 @@ class Player ():
             self.player_choice = input('please enter the piece you want to move (by tile eg a1, f3,...)\n')
             if board.board[self.player_choice][0] == self.color[0]:
                 print('that is a valid choice!')
+                return board.board[self.player_choice][1:2] + self.player_choice
                 break
             else:
                 print('not a valid choice!')
@@ -90,7 +98,8 @@ def main ():
     computer = AI(game, 'Computer Player', 'black')
     while True:
         game.draw()
-        user.get_player_move(game)
+        choice = user.get_player_move(game)
+        game.get_poss_moves(choice)
 
 
 main()

@@ -144,6 +144,26 @@ class Queen (Chess_Piece):
                 board.set(pos[0]+row, 'x')
 
 
+def evaluate(a):
+    board = Board()
+    board.empty()
+    if a.lower()[0] == 'r':
+        rook = Rook(board, a.lower()[1:3])
+        return board.board
+    elif a.lower()[0] == 'q':
+        queen = Queen(board, a.lower()[1:3])
+        return board.board
+    elif a.lower()[0] == 'k':
+        king = King(board, a.lower()[1:3])
+        return board.board
+    elif a.lower()[0] == 'b':
+        bishop = Bishop(board, a.lower()[1:3])
+        return board.board
+    elif a.lower()[0] == 'n':
+        knight = Knight(board, a.lower()[1:3])
+        return board.board
+
+
 x, y = 0, 0
 
 
