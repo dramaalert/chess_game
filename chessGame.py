@@ -34,6 +34,11 @@ class Game ():
         for i in b.items():
             if i[1] == 'x' and self.board[i[0]] == '  ':
                 self.board[i[0]] = 'x '
+
+    def clear(self):
+        for i in self.board.items():
+            if i[1] == 'x ':
+                self.board[i[0]] = '  '
             
 
 class Player ():
@@ -97,6 +102,7 @@ def main ():
     user = Player(game, 'User', 'white')
     computer = AI(game, 'Computer Player', 'black')
     while True:
+        game.clear()
         game.draw()
         choice = user.get_player_move(game)
         game.get_poss_moves(choice)
