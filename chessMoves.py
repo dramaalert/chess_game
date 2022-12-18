@@ -119,12 +119,25 @@ class Bishop (Chess_Piece):
 
 
 class Pawn (Chess_Piece):
+    def __init__(self, board, pos):
+        self.position = self.get_index(pos[2:4])
+        if pos[0] == 'w' or pos[0] == 'W':
+            self.color = 'white'
+        else:
+            self.color = 'black'
+        board.set(pos[2:4], self.get_name())
+        self.moves(board, pos)
+
     def get_name(self):
         return 'P'
 
     def moves(self, board, pos):
-        pass  # your code goes here
-
+        if self.color == 'white':
+            #if 
+            board.set('abcdefgh'[self.position[0]] + '12345678'[self.position[1]+1], 'x')
+        else:
+            board.set('abcdefgh'[self.position[0]] + '12345678'[self.position[1]-1], 'x')
+        print(board.board)
 
 class Queen (Chess_Piece):
     def get_name(self):
@@ -147,21 +160,23 @@ class Queen (Chess_Piece):
 def evaluate(a):
     board = Board()
     board.empty()
-    if a.lower()[0] == 'r':
-        rook = Rook(board, a.lower()[1:3])
+    if a.lower()[1] == 'r':
+        rook = Rook(board, a.lower()[2:4])
         return board.board
-    elif a.lower()[0] == 'q':
-        queen = Queen(board, a.lower()[1:3])
+    elif a.lower()[1] == 'q':
+        queen = Queen(board, a.lower()[2:4])
         return board.board
-    elif a.lower()[0] == 'k':
-        king = King(board, a.lower()[1:3])
+    elif a.lower()[1] == 'k':
+        king = King(board, a.lower()[2:4])
         return board.board
-    elif a.lower()[0] == 'b':
-        bishop = Bishop(board, a.lower()[1:3])
+    elif a.lower()[1] == 'b':
+        bishop = Bishop(board, a.lower()[2:4])
         return board.board
-    elif a.lower()[0] == 'n':
-        knight = Knight(board, a.lower()[1:3])
+    elif a.lower()[1] == 'n':
+        knight = Knight(board, a.lower()[2:4])
         return board.board
+    elif a.lower()[1] == 'p':
+        pawn = Pawn(board, a.lower())
 
 
 x, y = 0, 0
@@ -176,34 +191,36 @@ def main():
         while True:
             board.empty()
             choice = input('Enter a chess piece and its position or type X to exit:\n').lower()
-            match = re.match(r'[krqpbn][a-h][1-8]', choice)
+            match = re.match(r'[bw][krpqbn][a-h][1-8]', choice)
             try:
                 if choice == 'x':
                     print('Goodbye!')
                     break
                 elif match.group():
-                    if choice[0] == 'r':
-                        rook = Rook(board, choice[1:3])
+                    if choice[1] == 'p':
+                        pawn = Pawn(board, choice)
                         board.draw()
-                    elif choice[0] == 'q':
-                        queen = Queen(board, choice[1:3])
+                    elif choice[1] == 'r':
+                        rook = Rook(board, choice[2:4])
                         board.draw()
-                    elif choice[0] == 'k':
-                        king = King(board, choice[1:3])
+                    elif choice[1] == 'q':
+                        queen = Queen(board, choice[2:4])
                         board.draw()
-                    elif choice[0] == 'b':
-                        bishop = Bishop(board, choice[1:3])
+                    elif choice[1] == 'k':
+                        king = King(board, choice[2:4])
                         board.draw()
-                    elif choice[0] == 'n':
-                        knight = Knight(board, choice[1:3])
+                    elif choice[1] == 'b':
+                        bishop = Bishop(board, choice[2:4])
                         board.draw()
+                    elif choice[1] == 'n':
+                        knight = Knight(board, choice[2:4])
+                        board.draw()
+                    
                 else:
                     print('its a no go')
             except AttributeError:
-                continue
-            except:
-                print('error_unknown')
-                break
+                print('attribute error')
+            
 
 
 main()
